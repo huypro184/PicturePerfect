@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 const admin_api = require('./routes/index');
 const { sequelize } = require('./databases/init.mysql')
 
