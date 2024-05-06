@@ -60,4 +60,3 @@ const isLogging = async (req) => {
 };
 
 module.exports = { findUser, register, signIn, isLogging };
-
