@@ -1,3 +1,5 @@
+'use strict';
+
 // Import model Product từ thư mục models
 let { Product } = require("../models/product");
 

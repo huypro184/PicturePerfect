@@ -4,7 +4,7 @@ const { createProduct, getProductByName, updateProduct, deleteProduct } = requir
 const { OK } = require('../helpers/index');
 
 class ProductController {
-    static async createProductController(req, res, next) {
+    async createProductController(req, res, next) {
       try {
         let productName = req.body.productName;
         let unitPrice = req.body.unitPrice;
@@ -21,7 +21,7 @@ class ProductController {
       }
     }
   
-    static async getProductController(req, res, next) {
+    async getProductController(req, res, next) {
       try {
         let productName = req.params.productName;
   
@@ -38,7 +38,7 @@ class ProductController {
       }
     }
   
-    static async updateProductController(req, res, next) {
+    async updateProductController(req, res, next) {
       try {
         let productName = req.params.productName;
         let newUnitPrice = req.body.unitPrice;
@@ -59,7 +59,7 @@ class ProductController {
       }
     }
   
-    static async deleteProductController(req, res, next) {
+    async deleteProductController(req, res, next) {
       try {
         let productName = req.params.productName;
   
@@ -80,5 +80,5 @@ class ProductController {
     }
   }
   
-  module.exports = ProductController;
+  module.exports = new ProductController();
 
