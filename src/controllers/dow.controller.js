@@ -1,19 +1,20 @@
 'use strict';
 
 const { createStaff, getStaffById, updateStaff, deleteStaff } = require("../services/staff.service");
-const { staffValidator } = require('../services/staffValidator.service');
+const { dowValidator } = require('../services/dowValidator.service');
+
 const { OK } = require('../helpers/index');
 
-class StaffController {
-  async createStaffController(req, res, next) {
+class DowController {
+  async createDowController(req, res, next) {
     try {
-      // Kiểm tra tính hợp lệ của dữ liệu nhân viên trước khi tạo
-      let validationError = await staffValidator(req);
+      let { name, dob, phone, title, email, point, address } = req.body;
+
+      // Gọi hàm dowValidator để kiểm tra tính hợp lệ của dữ liệu Dow trước khi tạo nhân viên mới
+      let validationError = await dowValidator(req);
       if (validationError !== null) {
         return res.status(400).json({ message: validationError });
       }
-      
-      let { name, dob, phone, title, email, point, address } = req.body;
 
       // Gọi hàm createStaff từ staff.service để tạo nhân viên mới
       let result = await createStaff(name, dob, phone, title, email, point, address);
@@ -28,7 +29,7 @@ class StaffController {
     }
   }
 
-  async getStaffController(req, res, next) {
+  async getDowController(req, res, next) {
     try {
       let id = req.params.id;
 
@@ -46,13 +47,13 @@ class StaffController {
     }
   }
 
-  async updateStaffController(req, res, next) {
+  async updateDowController(req, res, next) {
     try {
       let id = req.params.id;
       let newData = req.body;
 
-      // Kiểm tra tính hợp lệ của dữ liệu nhân viên trước khi cập nhật
-      let validationError = await staffValidator(req);
+      // Gọi hàm dowValidator để kiểm tra tính hợp lệ của dữ liệu Dow trước khi cập nhật thông tin nhân viên
+      let validationError = await dowValidator(req);
       if (validationError !== null) {
         return res.status(400).json({ message: validationError });
       }
@@ -74,7 +75,7 @@ class StaffController {
     }
   }
 
-  async deleteStaffController(req, res, next) {
+  async deleteDowController(req, res, next) {
     try {
       let id = req.params.id;
 
@@ -96,4 +97,4 @@ class StaffController {
   }
 }
 
-module.exports = new StaffController();
+module.exports = new DowController();
