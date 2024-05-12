@@ -16,19 +16,23 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER
     },
     ID_FILM: {
-      allowNull: true, // Có thể là null nếu không bắt buộc
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     ID_INFO: {
-      allowNull: true, // Có thể là null nếu không bắt buộc
-      type: DataTypes.INTEGER
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Info',
+        key: 'ID'
+      }
     },
     SLOT: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
     DAY: {
-      allowNull: true, // Có thể là null nếu không bắt buộc
+      allowNull: true,
       type: DataTypes.DATE
     }
   }, {

@@ -26,6 +26,10 @@ module.exports = (sequelize) => {
     ID_INFO: {
       allowNull: false,
       type: DataTypes.INTEGER
+    },
+    TOTAL_PRICE: {
+      allowNull: false,
+      type: DataTypes.FLOAT
     }
   }, {
     sequelize,

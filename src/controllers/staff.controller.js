@@ -13,10 +13,10 @@ class StaffController {
         return res.status(400).json({ message: validationError });
       }
       
-      let { name, dob, phone, title, email, point, address } = req.body;
+      let { NAME, DOB, PHONE, TITLE, EMAIL, ADDRESS, SEX } = req.body;
 
       // Gọi hàm createStaff từ staff.service để tạo nhân viên mới
-      let result = await createStaff(name, dob, phone, title, email, point, address);
+      let result = await createStaff(NAME, DOB, PHONE, TITLE, EMAIL, ADDRESS, SEX);
 
       return res.status(201).json({
         message: "Create successfully.",
@@ -24,7 +24,7 @@ class StaffController {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: "Server Error"});
+      return res.status(500).json({ error: "Server Error" });
     }
   }
 
@@ -36,13 +36,13 @@ class StaffController {
       let result = await getStaffById(id);
 
       if (!result) {
-        return res.status(404).json({message: "Not found Staff"});
+        return res.status(404).json({ message: "Not found Staff" });
       }
 
-      return res.status(200).json({result});
+      return res.status(200).json(result);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: "Server Error"});
+      return res.status(500).json({ error: "Server Error" });
     }
   }
 
@@ -61,7 +61,7 @@ class StaffController {
       let result = await updateStaff(id, newData);
 
       if (!result) {
-        return res.status(404).json({message: "Not found Staff"});
+        return res.status(404).json({ message: "Not found Staff" });
       }
 
       return res.status(200).json({
@@ -70,7 +70,7 @@ class StaffController {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: "Server Error"});
+      return res.status(500).json({ error: "Server Error" });
     }
   }
 
@@ -82,7 +82,7 @@ class StaffController {
       let result = await deleteStaff(id);
 
       if (!result) {
-        return res.status(404).json({message: "Not found Staff"});
+        return res.status(404).json({ message: "Not found Staff" });
       }
 
       return res.status(200).json({
@@ -91,7 +91,7 @@ class StaffController {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: "Server Error"});
+      return res.status(500).json({ error: "Server Error" });
     }
   }
 }

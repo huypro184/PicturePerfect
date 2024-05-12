@@ -9,7 +9,7 @@ let findStaffById = async (id) => {
 }
 
 // Hàm createStaff: Tạo một staff mới
-let createStaff = async (name, dob, phone, title, email, point, address) => {
+let createStaff = async (name, dob, phone, title, email, address, sex) => {
   // Sử dụng phương thức create của Info để tạo một staff mới
   let newStaff = await Info.create({
     NAME: name,
@@ -17,8 +17,8 @@ let createStaff = async (name, dob, phone, title, email, point, address) => {
     PHONE: phone,
     TITLE: title,
     EMAIL: email,
-    POINT: point,
-    ADDRESS: address
+    ADDRESS: address,
+    SEX: sex
   });
   return newStaff; // Trả về thông tin về staff đã tạo
 }

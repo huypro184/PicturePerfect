@@ -1,53 +1,52 @@
 'use strict';
 
 // Import model Dow từ thư mục models
-let { Dow } = require("../models/dow");
+const { Dow } = require("../models/dow");
 
-// Hàm findDowById: Tìm kiếm một bản ghi trong bảng DOW dựa trên ID
+// Hàm tìm Dow bằng ID
 let findDowById = async (id) => {
   return await Dow.findByPk(id);
 }
 
-// Hàm createDow: Tạo một bản ghi mới trong bảng DOW
+// Hàm tạo mới một Dow
 let createDow = async (startTime, endTime, day, idInfo) => {
-  // Sử dụng phương thức create của Dow để tạo một bản ghi mới
+  // Sử dụng phương thức create của Dow để tạo một Dow mới
   let result = await Dow.create({
     START_TIME: startTime,
     END_TIME: endTime,
     DAY: day,
     ID_INFO: idInfo
   });
-  return result; // Trả về bản ghi đã được tạo
+  return result; // Trả về Dow đã được tạo
 }
 
-// Hàm updateDow: Cập nhật thông tin của một bản ghi trong bảng DOW dựa trên ID
+// Hàm cập nhật thông tin một Dow
 let updateDow = async (id, newStartTime, newEndTime, newDay, newIdInfo) => {
-  let dow = await findDowById(id); // Tìm kiếm bản ghi
+  let dow = await findDowById(id); // Tìm Dow
   if (!dow) {
-    return null; // Nếu không tìm thấy bản ghi, trả về null
+    return null;
   }
-  // Sử dụng phương thức update của Dow để cập nhật thông tin của bản ghi
+  // Sử dụng phương thức update của Dow để cập nhật thông tin Dow
   await dow.update({
     START_TIME: newStartTime,
     END_TIME: newEndTime,
     DAY: newDay,
     ID_INFO: newIdInfo
   });
-  return dow; // Trả về bản ghi đã được cập nhật
+  return dow; // Trả về Dow đã được cập nhật
 }
 
-// Hàm deleteDow: Xóa một bản ghi trong bảng DOW dựa trên ID
+// Hàm xóa một Dow
 let deleteDow = async (id) => {
-  let dow = await findDowById(id); // Tìm kiếm bản ghi
+  let dow = await findDowById(id); // Tìm Dow
   if (!dow) {
-    return null; // Nếu không tìm thấy bản ghi, trả về null
+    return null;
   }
-  // Sử dụng phương thức destroy của Dow để xóa bản ghi
+  // Sử dụng phương thức destroy của Dow để xóa Dow
   await dow.destroy();
-  return {}; // Trả về một đối tượng trống để biểu thị bản ghi đã được xóa thành công
+  return {}; // Trả về một đối tượng trống để biểu thị Dow đã được xóa thành công
 }
 
-// Xuất các hàm để có thể sử dụng ở các tệp khác
 module.exports = {
   findDowById,
   createDow,

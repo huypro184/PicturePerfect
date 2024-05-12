@@ -11,6 +11,7 @@ module.exports = (sequelize) => {
   Condition.init({
     ID: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },

@@ -35,19 +35,19 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: DataTypes.STRING(100)
     },
-    POINT: {
-      type: DataTypes.INTEGER,
+    ADDRESS: {
+      type: DataTypes.STRING(50),
       allowNull: true
     },
-    ADDRESS: {
+    SEX: {
       type: DataTypes.STRING(50),
       allowNull: true
     }
   }, {
     sequelize,
     modelName: 'Info',
-    timestamps: false, // Đặt timestamps thành false nếu bảng không có cột thời gian tạo và cập nhật
-    tableName: 'INFO' // Đặt tên bảng phù hợp với tên trong cơ sở dữ liệu
+    timestamps: false,
+    tableName: 'INFO'
   });
   
   return Info;
