@@ -4,9 +4,6 @@ const { asyncHandler } = require('../helpers/index');
 
 const StaffController = require("../controllers/staff.controller");
 
-/* GET staff listing. */
-debugger
-
 // Route POST ("/"): Tạo một nhân viên mới
 router.post("/", asyncHandler(StaffController.createStaffController));
 

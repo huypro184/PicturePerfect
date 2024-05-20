@@ -4,7 +4,11 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Info extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Info.hasMany(models.Dow, { foreignKey: 'ID_INFO' });
+      Info.hasMany(models.Room, { foreignKey: 'ID_INFO' });
+      Info.hasMany(models.Bill, { foreignKey: 'ID_INFO' });
+      Info.hasMany(models.Salary, { foreignKey: 'ID_INFO' });
+      Info.hasOne(models.Authorization, { foreignKey: 'ID' });
     }
   }
   
@@ -20,8 +24,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(100)
     },
     DOB: {
-      type: DataTypes.DATE,
-      allowNull: true
+      type: DataTypes.DATE
     },
     PHONE: {
       allowNull: false,
@@ -33,15 +36,14 @@ module.exports = (sequelize) => {
     },
     EMAIL: {
       allowNull: false,
-      type: DataTypes.STRING(100)
-    },
-    ADDRESS: {
-      type: DataTypes.STRING(50),
-      allowNull: true
+      type: DataTypes.STRING(100),
+      unique: true
     },
     SEX: {
-      type: DataTypes.STRING(50),
-      allowNull: true
+      type: DataTypes.STRING(50)
+    },
+    ADDRESS: {
+      type: DataTypes.STRING(50)
     }
   }, {
     sequelize,
@@ -49,6 +51,6 @@ module.exports = (sequelize) => {
     timestamps: false,
     tableName: 'INFO'
   });
-  
+
   return Info;
 };

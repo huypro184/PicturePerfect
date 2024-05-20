@@ -1,14 +1,18 @@
 'use strict';
 
-const { Room } = require("../models/room");
+const { Room, Info } = require('../models'); // Điều chỉnh import
 
 // Hàm tạo mới một phòng
-let createRoom = async (ID_FILM, ID_INFO, SLOT, DAY) => {
+let createRoom = async (ID_INFO, SLOTS, STATUS, CHECK_IN, CHECK_OUT, DAY_CHECKIN, DAY_CHECKOUT, SERVICE) => {
   return await Room.create({
-    ID_FILM,
     ID_INFO,
-    SLOT,
-    DAY
+    SLOTS,
+    STATUS,
+    CHECK_IN,
+    CHECK_OUT,
+    DAY_CHECKIN,
+    DAY_CHECKOUT,
+    SERVICE
   });
 }
 
@@ -40,8 +44,25 @@ let deleteRoom = async (id) => {
   return {};
 }
 
+// Hàm lấy danh sách các phòng cùng trạng thái của chúng
+let getRooms = async () => {
+  return await Room.findAll();
+}
+
+// Hàm lấy chi tiết một phòng bao gồm thông tin khách hàng, dịch vụ đã chọn, và thời gian check-in/check-out dự kiến
+let getRoomDetails = async (id) => {
+  return await Room.findByPk(id, {
+    include: [{
+      model: Info,
+      attributes: ['NAME', 'EMAIL', 'PHONE']
+    }]
+  });
+}
+
 module.exports = {
   createRoom,
   updateRoom,
   deleteRoom,
+  getRooms,
+  getRoomDetails,
 };

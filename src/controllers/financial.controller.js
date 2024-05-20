@@ -1,34 +1,49 @@
 'use strict';
 
-const { createActivity, createBill } = require('../services/staff.service');
-const { activityValidator, billValidator } = require('../services/staffValidator.service');
+const { getRevenueByPeriod, getExpensesByPeriod, getProfitByPeriod } = require('../services/financial.service');
+const { periodValidator } = require('../services/financialValidator.service');
 const { OK } = require('../helpers/index');
 
 class FinancialController {
-    async createActivityController(req, res, next) {
+    async getRevenue(req, res, next) {
         try {
-            let { idProduct, quantity, day, totalPrice } = req.body;
-            let validationError = await activityValidator(req);
+            let validationError = await periodValidator(req);
             if (validationError !== null) {
                 return res.status(400).json({ message: validationError });
             }
-            let result = await createActivity(idProduct, quantity, day, totalPrice);
-            return res.status(201).json({ message: "Activity created successfully.", data: result });
+            const { period } = req.query; // 'day', 'week', 'month'
+            const revenue = await getRevenueByPeriod(period);
+            return res.status(OK).json({ data: revenue });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: "Server Error" });
         }
     }
 
-    async createBillController(req, res, next) {
+    async getExpenses(req, res, next) {
         try {
-            let { idAct, idCont, idInfo, totalPrice } = req.body;
-            let validationError = await billValidator(req);
+            let validationError = await periodValidator(req);
             if (validationError !== null) {
                 return res.status(400).json({ message: validationError });
             }
-            let result = await createBill(idAct, idCont, idInfo, totalPrice);
-            return res.status(201).json({ message: "Bill created successfully.", data: result });
+            const { period } = req.query; // 'day', 'week', 'month'
+            const expenses = await getExpensesByPeriod(period);
+            return res.status(OK).json({ data: expenses });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: "Server Error" });
+        }
+    }
+
+    async getProfit(req, res, next) {
+        try {
+            let validationError = await periodValidator(req);
+            if (validationError !== null) {
+                return res.status(400).json({ message: validationError });
+            }
+            const { period } = req.query; // 'day', 'week', 'month'
+            const profit = await getProfitByPeriod(period);
+            return res.status(OK).json({ data: profit });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: "Server Error" });

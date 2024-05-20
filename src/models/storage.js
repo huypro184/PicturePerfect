@@ -2,38 +2,42 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Bill extends Model {
+  class Storage extends Model {
     static associate(models) {
-      Bill.belongsTo(models.Activity, { foreignKey: 'ID_ACT' });
-      Bill.belongsTo(models.Conditions, { foreignKey: 'ID_CONT' });
-      Bill.belongsTo(models.Info, { foreignKey: 'ID_INFO' });
+      Storage.belongsTo(models.Product, { foreignKey: 'ID_PRODUCT' });
     }
   }
 
-  Bill.init({
+  Storage.init({
     ID: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    ID_ACT: {
+    ID_PRODUCT: {
+      type: DataTypes.INTEGER
+    },
+    NAME: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+    QUANTITY: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
-    ID_CONT: {
-      type: DataTypes.INTEGER
+    IMPORT: {
+      type: DataTypes.DATE
     },
-    ID_INFO: {
-      allowNull: false,
-      type: DataTypes.INTEGER
+    EXPORT: {
+      type: DataTypes.DATE
     }
   }, {
     sequelize,
-    modelName: 'Bill',
+    modelName: 'Storage',
     timestamps: false,
-    tableName: 'BILL'
+    tableName: 'STORAGE'
   });
 
-  return Bill;
+  return Storage;
 };

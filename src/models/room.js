@@ -4,10 +4,10 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Room extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Room.belongsTo(models.Info, { foreignKey: 'ID_INFO' });
     }
   }
-  
+
   Room.init({
     ID: {
       allowNull: false,
@@ -15,25 +15,31 @@ module.exports = (sequelize) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    ID_FILM: {
-      allowNull: true,
+    ID_INFO: {
       type: DataTypes.INTEGER
     },
-    ID_INFO: {
-      allowNull: true,
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Info',
-        key: 'ID'
-      }
-    },
-    SLOT: {
+    SLOTS: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
-    DAY: {
-      allowNull: true,
+    STATUS: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+    CHECK_IN: {
+      type: DataTypes.TIME
+    },
+    CHECK_OUT: {
+      type: DataTypes.TIME
+    },
+    DAY_CHECKIN: {
       type: DataTypes.DATE
+    },
+    DAY_CHECKOUT: {
+      type: DataTypes.DATE
+    },
+    SERVICE: {
+      type: DataTypes.STRING(50)
     }
   }, {
     sequelize,
@@ -41,6 +47,6 @@ module.exports = (sequelize) => {
     timestamps: false,
     tableName: 'ROOM'
   });
-  
+
   return Room;
 };

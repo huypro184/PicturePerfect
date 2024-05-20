@@ -4,15 +4,18 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Salary extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Salary.belongsTo(models.Info, { foreignKey: 'ID_INFO' });
     }
   }
-  
+
   Salary.init({
     ID: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    ID_INFO: {
       type: DataTypes.INTEGER
     },
     HOUR_RATE: {
@@ -37,6 +40,6 @@ module.exports = (sequelize) => {
     timestamps: false,
     tableName: 'SALARY'
   });
-  
+
   return Salary;
 };

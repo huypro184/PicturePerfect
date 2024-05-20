@@ -1,6 +1,6 @@
 'use strict';
 
-const { createRoom, updateRoom, deleteRoom } = require("../services/room.service");
+const { createRoom, updateRoom, deleteRoom, getRooms, getRoomDetails } = require("../services/room.service");
 const { roomValidator } = require('../services/roomValidator.service');
 
 class RoomController {
@@ -13,10 +13,10 @@ class RoomController {
         return res.status(400).json({ message: validationError });
       }
       
-      let { ID_FILM, ID_INFO, SLOT, DAY } = req.body;
+      let { ID_INFO, SLOTS, STATUS, CHECK_IN, CHECK_OUT, DAY_CHECKIN, DAY_CHECKOUT, SERVICE } = req.body;
 
       // Gọi hàm tạo mới phòng từ service
-      let result = await createRoom(ID_FILM, ID_INFO, SLOT, DAY);
+      let result = await createRoom(ID_INFO, SLOTS, STATUS, CHECK_IN, CHECK_OUT, DAY_CHECKIN, DAY_CHECKOUT, SERVICE);
 
       return res.status(201).json({
         message: "Create successfully.",
@@ -71,6 +71,40 @@ class RoomController {
 
       return res.status(200).json({
         message: "Delete successfully.",
+        data: result
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Server Error" });
+    }
+  }
+
+  // Phương thức lấy danh sách các phòng cùng trạng thái của chúng
+  async getRoomsController(req, res, next) {
+    try {
+      let result = await getRooms();
+      return res.status(200).json({
+        message: "Fetch successfully.",
+        data: result
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Server Error" });
+    }
+  }
+
+  // Phương thức lấy chi tiết một phòng bao gồm thông tin khách hàng, dịch vụ đã chọn, và thời gian check-in/check-out dự kiến
+  async getRoomDetailsController(req, res, next) {
+    try {
+      let id = req.params.id;
+      let result = await getRoomDetails(id);
+
+      if (!result) {
+        return res.status(404).json({ message: "Not found Room" });
+      }
+
+      return res.status(200).json({
+        message: "Fetch successfully.",
         data: result
       });
     } catch (error) {

@@ -1,7 +1,5 @@
 'use strict';
 
-const { Info } = require("../models/info");
-
 // Hàm kiểm tra và trả về lỗi nếu có
 let raiseErr = async (req) => {
   let errors = await req.getValidationResult();

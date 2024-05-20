@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { asyncHandler } = require('../helpers/index');
-
 const DowController = require("../controllers/dow.controller");
-
-/* GET users listing. */
-debugger
 
 // Route POST ("/"): Tạo một Dow mới
 router.post("/", asyncHandler(DowController.createDowController));

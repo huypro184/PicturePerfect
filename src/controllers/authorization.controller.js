@@ -1,7 +1,7 @@
 'use strict';
 
-const {register} = require('../services/authorization.service');
-const {registerValidator} = require('../services/authorizationValidator.service');
+const { register } = require('../services/authorization.service');
+const { registerValidator } = require('../services/authorizationValidator.service');
 const { OK } = require('../helpers/index');
 
 class AuthController {
@@ -33,7 +33,7 @@ class AuthController {
             if (validator !== null) {
                 return res.send({ message: validator });
             }
-            let signIned = await signIn(req)
+            let signIned = await signIn(req);
             if (signIned === false) {
                 return res.send({ message: "Email or Password is incorrect" });
             } else {
@@ -43,6 +43,19 @@ class AuthController {
             return res.status(500).send({ error: "Server Error" });
         }
     }
-};
+
+    async logout(req, res, next) {
+        try {
+            let isLogged = await isLogging(req);
+            if (isLogged === false) {
+                return res.send({ message: "You are not logged in." });
+            }
+            req.session.user = null;
+            return res.send({ message: "Sign Out successfully." });
+        } catch (error) {
+            return res.status(500).send({ error: "Server Error" });
+        }
+    }
+}
 
 module.exports = new AuthController();

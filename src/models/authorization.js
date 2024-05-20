@@ -4,14 +4,13 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Authorization extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Authorization.belongsTo(models.Info, { foreignKey: 'ID' });
     }
   }
   
   Authorization.init({
     ID: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
@@ -34,9 +33,9 @@ module.exports = (sequelize) => {
   }, {
     sequelize,
     modelName: 'Authorization',
-    timestamps: false, // Đặt timestamps thành false nếu bảng không có cột thời gian tạo và cập nhật
-    tableName: 'AUTHORIZATION' // Đặt tên bảng phù hợp với tên trong cơ sở dữ liệu
+    timestamps: false,
+    tableName: 'AUTHORIZATION'
   });
-  
+
   return Authorization;
 };

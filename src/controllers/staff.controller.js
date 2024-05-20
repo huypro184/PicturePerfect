@@ -2,7 +2,6 @@
 
 const { createStaff, getStaffById, updateStaff, deleteStaff } = require("../services/staff.service");
 const { staffValidator } = require('../services/staffValidator.service');
-const { OK } = require('../helpers/index');
 
 class StaffController {
   async createStaffController(req, res, next) {

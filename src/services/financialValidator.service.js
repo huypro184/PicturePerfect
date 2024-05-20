@@ -17,6 +17,14 @@ async function billValidator(req) {
     return await raiseErr(req);
 }
 
+// Hàm kiểm tra tính hợp lệ của dữ liệu doanh thu và chi phí theo kỳ hạn
+async function periodValidator(req) {
+    req.check('period', 'Period is required and must be one of: day, week, month.')
+        .not().isEmpty()
+        .isIn(['day', 'week', 'month']);
+    return await raiseErr(req);
+}
+
 // Hàm raiseErr: Kiểm tra và trả về lỗi nếu có
 async function raiseErr(req) {
     let errors = await req.getValidationResult();
@@ -31,5 +39,6 @@ async function raiseErr(req) {
 // Export các hàm để sử dụng trong controller và các module khác
 module.exports = {
     activityValidator,
-    billValidator
+    billValidator,
+    periodValidator
 };

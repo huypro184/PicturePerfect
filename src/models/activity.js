@@ -4,10 +4,11 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Activity extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Activity.belongsTo(models.Product, { foreignKey: 'ID_PRODUCT' });
+      Activity.hasMany(models.Bill, { foreignKey: 'ID_ACT' });
     }
   }
-  
+
   Activity.init({
     ID: {
       allowNull: false,
@@ -37,6 +38,6 @@ module.exports = (sequelize) => {
     timestamps: false,
     tableName: 'ACTIVITY'
   });
-  
+
   return Activity;
 };

@@ -1,31 +1,61 @@
 'use strict';
 
 const { Activity } = require('../models/activity');
-const { Bill } = require('../models/bill');
+const { Salary } = require('../models/salary');
+const { sequelize, Op } = require('sequelize');
 
+// Hàm lấy doanh thu hàng ngày/tuần/tháng
+async function getRevenueByPeriod(period) {
+    const groupBy = {
+        day: sequelize.fn('DATE', sequelize.col('DAY')),
+        week: sequelize.fn('WEEK', sequelize.col('DAY')),
+        month: sequelize.fn('MONTH', sequelize.col('DAY'))
+    };
 
-// Hàm tạo một hoạt động mới
-async function createActivity(idProduct, quantity, day, totalPrice) {
-    return await Activity.create({
-        ID_PRODUCT: idProduct,
-        QUANTITY: quantity,
-        DAY: day,
-        TOTAL_PRICE: totalPrice
+    return await Activity.findAll({
+        attributes: [
+            [groupBy[period], 'period'],
+            [sequelize.fn('SUM', sequelize.col('TOTAL_PRICE')), 'total_revenue']
+        ],
+        group: [groupBy[period]]
     });
 }
 
-// Hàm tạo một hóa đơn mới
-async function createBill(idAct, idCont, idInfo, totalPrice) {
-    return await Bill.create({
-        ID_ACT: idAct,
-        ID_CONT: idCont,
-        ID_INFO: idInfo,
-        TOTAL_PRICE: totalPrice
+// Hàm lấy chi phí hàng ngày/tuần/tháng
+async function getExpensesByPeriod(period) {
+    const groupBy = {
+        day: sequelize.fn('DATE', sequelize.col('DAY')),
+        week: sequelize.fn('WEEK', sequelize.col('DAY')),
+        month: sequelize.fn('MONTH', sequelize.col('DAY'))
+    };
+
+    return await Salary.findAll({
+        attributes: [
+            [groupBy[period], 'period'],
+            [sequelize.fn('SUM', sequelize.col('TOTAL')), 'total_expense']
+        ],
+        group: [groupBy[period]]
     });
 }
 
-// Export các hàm để sử dụng trong controller và các module khác
+// Hàm tính lợi nhuận hàng ngày/tuần/tháng
+async function getProfitByPeriod(period) {
+    const revenue = await getRevenueByPeriod(period);
+    const expenses = await getExpensesByPeriod(period);
+
+    let profit = revenue.map(rev => {
+        let exp = expenses.find(exp => exp.dataValues.period === rev.dataValues.period);
+        return {
+            period: rev.dataValues.period,
+            total_profit: rev.dataValues.total_revenue - (exp ? exp.dataValues.total_expense : 0)
+        };
+    });
+
+    return profit;
+}
+
 module.exports = {
-    createActivity,
-    createBill
+    getRevenueByPeriod,
+    getExpensesByPeriod,
+    getProfitByPeriod
 };

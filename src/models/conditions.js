@@ -2,13 +2,13 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Condition extends Model {
+  class Conditions extends Model {
     static associate(models) {
-      // Khai báo các mối quan hệ nếu có
+      Conditions.hasMany(models.Bill, { foreignKey: 'ID_CONT' });
     }
   }
-  
-  Condition.init({
+
+  Conditions.init({
     ID: {
       allowNull: false,
       autoIncrement: true,
@@ -25,10 +25,10 @@ module.exports = (sequelize) => {
     }
   }, {
     sequelize,
-    modelName: 'Condition',
+    modelName: 'Conditions',
     timestamps: false,
     tableName: 'CONDITIONS'
   });
-  
-  return Condition;
+
+  return Conditions;
 };
